@@ -1,0 +1,6 @@
+
+class Item {
+	constructor() {
+		
+	}
+}
