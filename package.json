@@ -27,5 +27,8 @@
   "bugs": {
     "url": "https://github.com/ethanwillis/kroger-api/issues"
   },
-  "homepage": "https://github.com/ethanwillis/kroger-api#readme"
+  "homepage": "https://github.com/ethanwillis/kroger-api#readme",
+  "dependencies": {
+    "babel": "^6.23.0"
+  }
 }
