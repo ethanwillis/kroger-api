@@ -1,0 +1,31 @@
+{
+  "name": "kroger-api",
+  "version": "0.0.1",
+  "description": "An API for interacting with online Kroger services to get food and goods pricing data.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ethanwillis/kroger-api.git"
+  },
+  "keywords": [
+    "kroger",
+    "grocery",
+    "food",
+    "cost",
+    "cost",
+    "api",
+    "library",
+    "savings",
+    "optimization",
+    "cheetos"
+  ],
+  "author": "Ethan Willis, Matthew Longley",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ethanwillis/kroger-api/issues"
+  },
+  "homepage": "https://github.com/ethanwillis/kroger-api#readme"
+}
