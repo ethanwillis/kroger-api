@@ -29,6 +29,7 @@
   },
   "homepage": "https://github.com/ethanwillis/kroger-api#readme",
   "dependencies": {
-    "babel": "^6.23.0"
+    "babel": "^6.23.0",
+    "request-promise": "^4.2.0"
   }
 }
