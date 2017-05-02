@@ -1,0 +1,94 @@
+{
+	"categories": [
+		{
+			"name": "Adult Beverage",
+			"category_id": "105698"
+		},
+		{
+			"name": "Baby",
+			"category_id": "105502"
+		},
+		{
+			"name": "Bakery",
+			"category_id": "105511"
+		},
+		{
+			"name": "Baking Goods",
+			"category_id": "105664"
+		},
+		{
+			"name": "Beverages",
+			"category_id": "105536"
+		},
+		{
+			"name": "Breakfast",
+			"category_id": "105556"
+		},
+		{
+			"name": "Bulk Foods",
+			"category_id": "105568"
+		},
+		{
+			"name": "Canned & Packaged",
+			"category_id": "105575"
+		},
+		{
+			"name": "Cleaning Products",
+			"category_id": "105595"
+		},
+		{
+			"name": "Condiments & Toppings",
+			"category_id": "105606"
+		},
+		{
+			"name": "Dairy",
+			"category_id": "105627"
+		},
+		{
+			"name": "Deli",
+			"category_id": "105642"
+		},
+		{
+			"name": "Frozen",
+			"category_id": "105647"
+		},
+		{
+			"name": "International",
+			"category_id": "105691"
+		},
+		{
+			"name": "Meat & Seafood",
+			"category_id": "105705"
+		},
+		{
+			"name": "Paper & Plastics",
+			"category_id": "105711"
+		},
+		{
+			"name": "Pasta, Sauces, Grain",
+			"category_id": "105721"
+		},
+		{
+			"name": "Pet Care",
+			"category_id": "105724"
+		},
+		{
+			"name": "Produce",
+			"category_id": "105729"
+		},
+		{
+			"name": "Snacks",
+			"category_id": "105737"
+		},
+		{
+			"name": "Tobacco",
+			"category_id": "105755"
+		}
+	],
+	"paths": {
+		"base_url": "https://www.kroger.com",
+		"auth_base_uri": "/user/authenticate",
+		"api_base_uri": "/storecatalog/clicklistbeta/api",
+		"products_uri": "/storecatalog/clicklistbeta/api/products",
+	}
+}
