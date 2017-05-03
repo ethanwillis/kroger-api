@@ -20,7 +20,7 @@ class KrogerAPI {
 		// set authentication request
 		this.auth_options = {
 			uri: kApi.auth_base_uri,
-			baseUrl: kApi.baseUrl,
+			baseUrl: kApi.base_url,
 			method: "POST",
 			json: true,
 			jar: true,
@@ -43,4 +43,5 @@ class KrogerAPI {
 }
 
 var x = new KrogerAPI('krogerconf.json');
+console.log(JSON.stringify(x.auth_options));
 x.authenticate();
