@@ -15,5 +15,32 @@ class KrogerAPI {
 		// read username and password from environment
 		this.username = process.env.KROGER_USERNAME;
 		this.password = process.env.KROGER_PASSWORD;
+		// put object in different scope
+		var kApi = this;
+		// set authentication request
+		this.auth_options = {
+			uri: kApi.auth_base_uri,
+			baseUrl: kApi.baseUrl,
+			method: "POST",
+			json: true,
+			jar: true,
+			body: {
+				account: {
+					email: kApi.username,
+					password: kApi.password,
+					rememberMe: true
+				},
+				location: ""
+			}
+		}
+	}
+	
+	authenticate() {
+		var req = rp(this.auth_options).then(function(response) {
+			console.log("Kroger AUTH response: \n" + JSON.stringify(response));
+		});
 	}
 }
+
+var x = new KrogerAPI('krogerconf.json');
+x.authenticate();

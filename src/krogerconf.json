@@ -89,6 +89,6 @@
 		"base_url": "https://www.kroger.com",
 		"auth_base_uri": "/user/authenticate",
 		"api_base_uri": "/storecatalog/clicklistbeta/api",
-		"products_uri": "/storecatalog/clicklistbeta/api/products",
+		"products_uri": "/storecatalog/clicklistbeta/api/products"
 	}
 }
