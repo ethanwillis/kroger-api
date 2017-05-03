@@ -40,6 +40,10 @@ class KrogerAPI {
 			console.log("Kroger AUTH response: \n" + JSON.stringify(response));
 		});
 	}
+	
+	getStores() {
+		
+	}
 }
 
 var x = new KrogerAPI('krogerconf.json');
