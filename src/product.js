@@ -1,5 +1,5 @@
 
-class Item {
+class Product {
 	constructor() {
 		
 	}
