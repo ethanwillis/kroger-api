@@ -29,7 +29,11 @@
   },
   "homepage": "https://github.com/ethanwillis/kroger-api#readme",
   "dependencies": {
+    "apollo-client": "^1.2.0",
     "babel": "^6.23.0",
+    "graphql-client": "^1.1.0",
+    "graphql-tag": "^2.0.0",
+    "node-fetch": "^1.6.3",
     "request": "^2.81.0",
     "request-promise": "^4.2.0",
     "schema-object": "^4.0.11",
