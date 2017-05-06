@@ -3,33 +3,16 @@ var zipcodes = require('zipcodes');
 var fs = require('fs');
 var rp = require('request-promise');
 var MongoClient = require('mongodb').MongoClient;
-var mongo_url = "mongodb://localhost:27017/krogerdb"
+var mongo_url = "mongodb://localhost:27018/krogerdb"
 
 
 // Get all zipcodes in tennessee
 var ziplist = (zipcodes.radius(38134, 10000000)).filter(function(code) {
-	return ((parseInt(code) >= 37000) && (parseInt(code) < 38600));
+	return code;
 });
 
 // Hashmap for recording stores
 var storeMap = new HashMap();
-
-// template for requests to find stores in a certain zip code
-//var storeSearchReq = {
-	//baseUrl: 'https://www.kroger.com',
-	//uri: '/stores/api/graphql',
-	//jar: true,
-	//json: true,
-	//method: "POST",
-	//headers: {
-		//'Content-Type': 'application/json'
-	//},
-	//body: {
-		//'query': "query storeSearch($searchText: String!, $filters: [String]!) {  storeSearch(searchText: $searchText, filters: $filters) {    stores {      ...storeSearchResult    }    fuel {      ...storeSearchResult    }    shouldShowFuelMessage  }}fragment storeSearchResult on Store {  banner  vanityName  divisionNumber  storeNumber  phoneNumber  showWeeklyAd  showShopThisStoreAndPreferredStoreButtons  distance  latitude  longitude  address {    addressLine1    addressLine2    city    countryCode    stateCode    zip  }  pharmacy {    phoneNumber  }}",
-		//'variables': { 'searchText': "38134", 'filters': [] },
-		//'operationName': "storeSearch"
-	//}
-//};
 
 var currTimeout = 0;
 var reqCompletion = 0;
@@ -61,22 +44,22 @@ var getStoresByZip = function(zip, db_client) {
 	// make the request
 	// (call brendan eich i dont give a fuck)
 	rp(storeSearchReq)
-	.then(function(response) {
-		var storesArr = response['data']['storeSearch']['stores'];
-		if (storesArr != null) {
-			for(var i = 0; i < storesArr.length; ++i) {
-				var x = storesArr[i];
-				if(storeMap.get(x['storeNumber'])) {
-					storeMap.set(x['storeNumber'], x);
-  				} else {
-					save_store(x, db_client)
+		.then(function(response) {
+			var storesArr = response['data']['storeSearch']['stores'];
+			if (storesArr != null) {
+				for(var i = 0; i < storesArr.length; ++i) {
+					var x = storesArr[i];
+					if(storeMap.get(x['storeNumber'])) {
+						storeMap.set(x['storeNumber'], x);
+  					} else {
+						save_store(x, db_client)
+					}
 				}
 			}
-		}
-	})
-	.catch(function(error) {
-		console.log(error);
-	});
+		})
+		.catch(function(error) {
+			console.log(error);
+		});
 };
 
 var save_store = function(store, db_client) {
@@ -84,9 +67,10 @@ var save_store = function(store, db_client) {
 	store._id = store.storeNumber;
 	mongo_collection.insert(store, function(err, result) {
 		if(err) {
-			console.log("INSERTION ERROR: " + err)
+			console.log("ERROR: " + err)
+			//console.log("INSERTION ERROR: " + err)
 		} else {
-			console.log("INSERTION SUCCESS: " + result);
+			console.log("INSERTION SUCCESS");
 		}
 	});
 }
@@ -96,9 +80,10 @@ var getAllStores = function() {
 		if(err) {
 			console.log("CONNECTION ERROR: " + err);
 		} else {
+			ziplist = ["94610"]
 			for(var i = 0; i < ziplist.length; ++i) {
 				setTimeout(getStoresByZip, currTimeout, ziplist[i], db_client);
-				currTimeout += 3000;
+				currTimeout += 300;
 			}
 		}
 	});
