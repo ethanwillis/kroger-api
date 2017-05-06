@@ -1,11 +1,18 @@
-var rp = require('request-promise');
+var HashMap = require('hashmap');
 var zipcodes = require('zipcodes');
+var fs = require('fs');
+var rp = require('request-promise');
+var MongoClient = require('mongodb').MongoClient;
+var mongo_url = "mongodb://localhost:27017/krogerdb"
 
-// Get all US zipcodes that are in five digit format
+
+// Get all zipcodes in tennessee
 var ziplist = (zipcodes.radius(38134, 10000000)).filter(function(code) {
-	var rexpforzip = /\d{5}/;
-	return rexpforzip.exec(code);
+	return ((parseInt(code) >= 37000) && (parseInt(code) < 38600));
 });
+
+// Hashmap for recording stores
+var storeMap = new HashMap();
 
 // template for requests to find stores in a certain zip code
 //var storeSearchReq = {
@@ -25,6 +32,7 @@ var ziplist = (zipcodes.radius(38134, 10000000)).filter(function(code) {
 //};
 
 var currTimeout = 0;
+var reqCompletion = 0;
 
 function ZipcodeRequest(zip) {
 	this.baseUrl = 'https://www.kroger.com';
@@ -45,7 +53,9 @@ function ZipcodeRequest(zip) {
 	};
 }
 
-var getStoresByZip = function(zip) {
+var getStoresByZip = function(zip, db_client) {
+	// Debugging message
+	console.log("Working on ZIP code: " + zip + "...\n");
 	// make new request object
 	var storeSearchReq = new ZipcodeRequest(zip);
 	// make the request
@@ -53,19 +63,45 @@ var getStoresByZip = function(zip) {
 	rp(storeSearchReq)
 	.then(function(response) {
 		var storesArr = response['data']['storeSearch']['stores'];
-		console.log(JSON.stringify(storesArr));
+		if (storesArr != null) {
+			for(var i = 0; i < storesArr.length; ++i) {
+				var x = storesArr[i];
+				if(storeMap.get(x['storeNumber'])) {
+					storeMap.set(x['storeNumber'], x);
+  				} else {
+					save_store(x, db_client)
+				}
+			}
+		}
 	})
 	.catch(function(error) {
 		console.log(error);
 	});
 };
 
+var save_store = function(store, db_client) {
+	var mongo_collection = db_client.collection("stores");
+	store._id = store.storeNumber;
+	mongo_collection.insert(store, function(err, result) {
+		if(err) {
+			console.log("INSERTION ERROR: " + err)
+		} else {
+			console.log("INSERTION SUCCESS: " + result);
+		}
+	});
+}
+
 var getAllStores = function() {
-	var ziparr = new Array();
-	for(var i = 0; i < ziplist.length; ++i) {
-		setTimeout(getStoresByZip, currTimeout, ziplist[i]);
-		currTimeout += 30000;
-	}
+	MongoClient.connect(mongo_url, function(err, db_client) {
+		if(err) {
+			console.log("CONNECTION ERROR: " + err);
+		} else {
+			for(var i = 0; i < ziplist.length; ++i) {
+				setTimeout(getStoresByZip, currTimeout, ziplist[i], db_client);
+				currTimeout += 3000;
+			}
+		}
+	});
 };
 
 getAllStores();
