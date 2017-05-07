@@ -37,8 +37,11 @@
     "mongodb": "^2.2.26",
     "node-fetch": "^1.6.3",
     "request": "^2.81.0",
+    "request-debug": "^0.2.0",
     "request-promise": "^4.2.0",
     "schema-object": "^4.0.11",
+    "tough-cookie": "^2.3.2",
+    "tough-cookie-filestore": "0.0.1",
     "zipcodes": "^3.0.0"
   }
 }
